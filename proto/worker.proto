@@ -39,6 +39,9 @@ message Start {
     // seconds
     uint64 duration = 3;
     HTTPRequest request = 4;
+
+    // Rate at which to persist response data.
+    SamplingRate persist_response_sampling_rate = 5;
 }
 
 message Finish {
@@ -69,4 +72,9 @@ message Stop {
 
 message Ack {
 
+}
+
+message SamplingRate {
+    // 1 in "period" sampling. <=0 values indicate no sampling.
+    int64 period = 1;
 }
