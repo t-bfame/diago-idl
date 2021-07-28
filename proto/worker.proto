@@ -76,5 +76,5 @@ message Ack {
 
 message SamplingRate {
     // 1 in "period" sampling. <=0 values indicate no sampling.
-    int64 period = 1;
+    int32 period = 1;
 }
