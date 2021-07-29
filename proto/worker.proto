@@ -42,6 +42,10 @@ message Start {
 
     // Rate at which to persist response data.
     SamplingRate persist_response_sampling_rate = 5;
+
+    // Information about the test which contains the job.
+    string test_id = 10;
+    string test_instance_id = 11;
 }
 
 message Finish {
