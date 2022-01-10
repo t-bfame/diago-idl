@@ -16,6 +16,8 @@ message Message {
         Finish finish = 4;
         Stop stop = 5;
         Ack ack = 6;
+
+        RegisterAgg registeragg = 7;
     }
 }
 
@@ -25,10 +27,16 @@ message Register {
     uint64 frequency = 3;
 }
 
+message RegisterAgg {
+    string test_id = 1;
+    string instance_id = 2;
+    string job_id = 3;
+}
+
 message HTTPRequest {
     string method = 1;
     string url = 2;
-    optional string body = 3;
+    string body = 3;
 }
 
 message Start {

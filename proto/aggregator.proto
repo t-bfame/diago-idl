@@ -1,0 +1,55 @@
+syntax = "proto3";
+
+option go_package = "proto-gen/worker";
+
+import "google/protobuf/timestamp.proto";
+
+service Aggregator {
+    rpc Coordinate(stream Message) returns (stream Message) {}
+}
+
+message Message {
+    oneof payload {
+        Register register = 1;
+        Metrics metrics = 2;
+        Finish finish = 3;
+        Ack ack = 4;
+    }
+}
+
+message Register {
+    string group = 1;
+    string instance = 2;
+    uint64 frequency = 3;
+}
+
+message Finish {
+
+}
+
+message Metrics {
+    string test_id = 1;
+
+    string instance_id = 2;
+
+    string job_id = 3;
+
+    uint32 code = 4;
+
+    uint64 bytes_in = 5;
+
+    uint64 bytes_out = 6;
+
+    // Nanoseconds
+    int64 latency = 7;
+
+    string error = 8;
+
+    // https://godoc.org/github.com/golang/protobuf/ptypes#TimestampProto
+    google.protobuf.Timestamp timestamp = 9;
+
+    uint64 volume = 10
+}
+message Ack {
+
+}
