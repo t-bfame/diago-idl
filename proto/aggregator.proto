@@ -18,9 +18,6 @@ message Message {
 }
 
 message Register {
-    string group = 1;
-    string instance = 2;
-    uint64 frequency = 3;
 }
 
 message Finish {
@@ -34,21 +31,27 @@ message Metrics {
 
     string job_id = 3;
 
-    uint32 code = 4;
+    uint64 requests = 4;
 
-    uint64 bytes_in = 5;
+    repeated uint64 codes = 5;
 
-    uint64 bytes_out = 6;
+    uint64 bytes_in = 6;
+
+    uint64 bytes_out = 7;
 
     // Nanoseconds
-    int64 latency = 7;
-
-    string error = 8;
+    repeated int64 latencies = 8;
 
     // https://godoc.org/github.com/golang/protobuf/ptypes#TimestampProto
-    google.protobuf.Timestamp timestamp = 9;
+    google.protobuf.Timestamp earliest = 9;
 
-    uint64 volume = 10
+    google.protobuf.Timestamp latest = 10;
+
+    google.protobuf.Timestamp end = 11;
+
+    repeated string error = 12;
+
+    bool finish = 13;
 }
 message Ack {
 
