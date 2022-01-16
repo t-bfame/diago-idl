@@ -49,7 +49,7 @@ message Metrics {
 
     google.protobuf.Timestamp end = 11;
 
-    repeated string error = 12;
+    repeated string errors = 12;
 
     bool finish = 13;
 }
