@@ -1,6 +1,6 @@
 syntax = "proto3";
 
-option go_package = "proto-gen/worker";
+option go_package = "proto-gen/aggregator";
 
 import "google/protobuf/timestamp.proto";
 
