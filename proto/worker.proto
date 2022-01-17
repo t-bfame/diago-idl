@@ -12,12 +12,9 @@ message Message {
     oneof payload {
         Register register = 1;
         Start start = 2;
-        Metrics metrics = 3;
-        Finish finish = 4;
-        Stop stop = 5;
-        Ack ack = 6;
-
-        RegisterAgg registeragg = 7;
+        Finish finish = 3;
+        Stop stop = 4;
+        Ack ack = 5;
     }
 }
 
@@ -25,12 +22,6 @@ message Register {
     string group = 1;
     string instance = 2;
     uint64 frequency = 3;
-}
-
-message RegisterAgg {
-    string test_id = 1;
-    string instance_id = 2;
-    string job_id = 3;
 }
 
 message HTTPRequest {
@@ -58,24 +49,6 @@ message Start {
 
 message Finish {
     string job_id = 1;
-}
-
-message Metrics {
-    string job_id = 1;
-
-    uint32 code = 2;
-
-    uint64 bytes_in = 3;
-
-    uint64 bytes_out = 4;
-
-    // Nanoseconds
-    int64 latency = 5;
-
-    string error = 6;
-
-    // https://godoc.org/github.com/golang/protobuf/ptypes#TimestampProto
-    google.protobuf.Timestamp timestamp = 7;
 }
 
 message Stop {

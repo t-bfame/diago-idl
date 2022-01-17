@@ -10,21 +10,41 @@ service Aggregator {
 
 message Message {
     oneof payload {
-        Register register = 1;
-        Metrics metrics = 2;
-        Finish finish = 3;
-        Ack ack = 4;
+        Metrics metrics = 1;
+        Finish finish = 2;
+        Ack ack = 3;
     }
 }
 
-message Register {
-}
-
 message Finish {
-
+    string test_id = 1;
+    string instance_id = 2;
+    string job_id = 3;
 }
 
 message Metrics {
+    string test_id = 1;
+
+    string instance_id = 2;
+
+    string job_id = 3;
+
+    uint32 code = 4;
+
+    uint64 bytes_in = 5;
+
+    uint64 bytes_out = 6;
+
+    // Nanoseconds
+    int64 latency = 7;
+
+    string error = 8;
+
+    // https://godoc.org/github.com/golang/protobuf/ptypes#TimestampProto
+    google.protobuf.Timestamp timestamp = 9;
+}
+
+message AggMetrics {
     string test_id = 1;
 
     string instance_id = 2;
