@@ -3,6 +3,7 @@ syntax = "proto3";
 option go_package = "proto-gen/aggregator";
 
 import "google/protobuf/timestamp.proto";
+import "google/protobuf/duration.proto";
 
 service Aggregator {
     rpc Coordinate(stream Message) returns (stream Message) {}
@@ -10,10 +11,16 @@ service Aggregator {
 
 message Message {
     oneof payload {
-        Metrics metrics = 1;
-        Finish finish = 2;
-        Ack ack = 3;
+        AggMetrics agg_metrics = 1;
+        Metrics metrics = 2;
+        Finish finish = 3;
+        Ack ack = 4;
+        Register register = 5;
     }
+}
+
+message Register {
+    
 }
 
 message Finish {
@@ -53,14 +60,14 @@ message AggMetrics {
 
     uint64 requests = 4;
 
-    repeated uint64 codes = 5;
+    map<string, uint64> codes = 5;
 
     uint64 bytes_in = 6;
 
     uint64 bytes_out = 7;
 
     // Nanoseconds
-    repeated int64 latencies = 8;
+    repeated google.protobuf.Duration latencies = 8;
 
     // https://godoc.org/github.com/golang/protobuf/ptypes#TimestampProto
     google.protobuf.Timestamp earliest = 9;
