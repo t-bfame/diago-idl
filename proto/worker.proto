@@ -3,6 +3,7 @@ syntax = "proto3";
 option go_package = "proto-gen/worker";
 
 import "google/protobuf/timestamp.proto";
+import "google/protobuf/duration.proto";
 
 service Worker {
     rpc Coordinate(stream Message) returns (stream Message) {}
