@@ -3,6 +3,7 @@ syntax = "proto3";
 option go_package = "proto-gen/worker";
 
 import "google/protobuf/timestamp.proto";
+import "google/protobuf/duration.proto";
 
 service Worker {
     rpc Coordinate(stream Message) returns (stream Message) {}
@@ -53,21 +54,35 @@ message Finish {
 }
 
 message Metrics {
-    string job_id = 1;
+    string test_id = 1;
 
-    uint32 code = 2;
+    string instance_id = 2;
 
-    uint64 bytes_in = 3;
+    string job_id = 3;
 
-    uint64 bytes_out = 4;
+    uint64 requests = 4;
+
+    map<string, uint64> codes = 5;
+
+    uint64 bytes_in = 6;
+
+    uint64 bytes_out = 7;
 
     // Nanoseconds
-    int64 latency = 5;
-
-    string error = 6;
+    repeated google.protobuf.Duration latencies = 8;
 
     // https://godoc.org/github.com/golang/protobuf/ptypes#TimestampProto
-    google.protobuf.Timestamp timestamp = 7;
+    google.protobuf.Timestamp earliest = 9;
+
+    google.protobuf.Timestamp latest = 10;
+
+    google.protobuf.Timestamp end = 11;
+
+    repeated string errors = 12;
+
+    bool finish = 13;
+
+    string group = 14;
 }
 
 message Stop {
