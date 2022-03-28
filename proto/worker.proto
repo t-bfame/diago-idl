@@ -3,6 +3,7 @@ syntax = "proto3";
 option go_package = "proto-gen/worker";
 
 import "google/protobuf/timestamp.proto";
+import "google/protobuf/duration.proto";
 
 service Worker {
     rpc Coordinate(stream Message) returns (stream Message) {}
@@ -28,6 +29,7 @@ message Register {
 message HTTPRequest {
     string method = 1;
     string url = 2;
+    string body = 3;
 }
 
 message Start {
@@ -38,6 +40,13 @@ message Start {
     // seconds
     uint64 duration = 3;
     HTTPRequest request = 4;
+
+    // Rate at which to persist response data.
+    SamplingRate persist_response_sampling_rate = 5;
+
+    // Information about the test which contains the job.
+    string test_id = 10;
+    string test_instance_id = 11;
 }
 
 message Finish {
@@ -46,20 +55,26 @@ message Finish {
 
 message Metrics {
     string job_id = 1;
+    
+    uint64 n_metrics = 2;
 
-    uint32 code = 2;
+    map<string, uint64> codes = 3;
 
-    uint64 bytes_in = 3;
+    uint64 bytes_in = 4;
 
-    uint64 bytes_out = 4;
+    uint64 bytes_out = 5;
 
     // Nanoseconds
-    int64 latency = 5;
-
-    string error = 6;
+    repeated google.protobuf.Duration latencies = 6;
 
     // https://godoc.org/github.com/golang/protobuf/ptypes#TimestampProto
-    google.protobuf.Timestamp timestamp = 7;
+    google.protobuf.Timestamp earliest = 7;
+
+    google.protobuf.Timestamp latest = 8;
+
+    google.protobuf.Timestamp end = 9;
+
+    repeated string errors = 10;
 }
 
 message Stop {
@@ -68,4 +83,9 @@ message Stop {
 
 message Ack {
 
+}
+
+message SamplingRate {
+    // 1 in "period" sampling. <=0 values indicate no sampling.
+    int32 period = 1;
 }
